@@ -46,47 +46,13 @@
 5. 跨赛道迁移要保留同一种用户心理或决策机制，不能只替换行业名词。
 6. 没有出现的信息不补写，不虚构经历、数据、效果或账号意图。
 
-## 安装
+## 在 Codex 中一键安装
 
-### 方法一：使用 Codex Skill Installer
+打开 Codex，把下面这句话直接发给它：
 
-Windows PowerShell：
+> 请帮我安装这个 Skill：[moya-template-analyzer](https://github.com/shushouyouce/moya-template-analyzer)
 
-```powershell
-python "$env:USERPROFILE\.codex\skills\.system\skill-installer\scripts\install-skill-from-github.py" `
-  --repo shushouyouce/moya-template-analyzer `
-  --path . `
-  --name moya-template-analyzer
-```
-
-macOS / Linux：
-
-```bash
-python "${CODEX_HOME:-$HOME/.codex}/skills/.system/skill-installer/scripts/install-skill-from-github.py" \
-  --repo shushouyouce/moya-template-analyzer \
-  --path . \
-  --name moya-template-analyzer
-```
-
-安装完成后，在下一轮对话中即可使用。
-
-### 方法二：直接克隆
-
-Windows PowerShell：
-
-```powershell
-git clone https://github.com/shushouyouce/moya-template-analyzer.git `
-  "$env:USERPROFILE\.codex\skills\moya-template-analyzer"
-```
-
-macOS / Linux：
-
-```bash
-git clone https://github.com/shushouyouce/moya-template-analyzer.git \
-  "${CODEX_HOME:-$HOME/.codex}/skills/moya-template-analyzer"
-```
-
-如果目标目录已经存在，请先确认是否需要保留本地修改。使用 Git 克隆安装时，可以在该目录执行 `git pull` 获取后续更新。
+Codex 会自动完成安装，不需要复制命令，也不需要手动选择文件夹。安装完成后，下一轮对话即可使用。
 
 ## 使用方法
 
@@ -159,4 +125,3 @@ python scripts/validate_output.py path/to/output.md
 - 风险判断用于内容审核提示，不替代医疗、法律、金融或平台专业意见。
 - 公开数据是历史结果，不代表复用模板后能够获得相同表现。
 - 处理评论、聊天截图和案例时，应注意隐私、授权与真实性。
-
