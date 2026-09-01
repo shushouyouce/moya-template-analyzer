@@ -1,0 +1,5 @@
+interface:
+  display_name: "墨鸦模板判断器"
+  short_description: "逆向拆解获客模板，生成可入库的操盘手式中文介绍"
+  default_prompt: "使用 $moya-template-analyzer 判断这份内容模板的赛道、获客阶段和可复制机制，并生成1000字以内的入库介绍。"
+
