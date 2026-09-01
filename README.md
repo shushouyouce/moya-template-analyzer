@@ -1,0 +1,162 @@
+# 墨鸦模板判断器
+
+`moya-template-analyzer` 是一个用于逆向分析获客内容的 Codex Skill。
+
+它面向抖音、小红书、视频号等内容平台，把截图、图文、视频、评论和账号主页当作获客系统中的证据，判断一条内容实际吸引了谁、促成了什么动作、能否为业务服务，以及其中哪些结构可以迁移到其他赛道。
+
+## 能做什么
+
+- 识别一级赛道、细分赛道、目标人群、内容形式和获客阶段。
+- 区分作品事实、账号事实、用户信号、操盘推断和未知项。
+- 判断内容是在获取流量、建立信任、引导留资，还是推动成交。
+- 分开评估流量价值与业务价值，避免把点赞、评论直接等同于客户和成交。
+- 提炼固定结构、用户心理、可替换变量及跨赛道迁移边界。
+- 对医疗、金融、法律、成人、招商加盟、站外导流等内容进行风险提示。
+- 生成可直接发布的会员介绍，也可以按需输出供入库和 MCP 使用的内部记录。
+
+## 支持的输入
+
+- 单张或多张作品截图
+- 本地图片、视频及屏幕录制
+- 标题、正文、逐字稿和字幕
+- 评论区样本和公开互动数据
+- 账号主页、置顶作品及承接入口
+- 抖音、小红书等平台链接
+
+平台链接能读取到多少内容，取决于页面的公开范围、登录状态、验证码和浏览器权限。证据不足时，Skill 会保留能够确认的结论，并把其余内容标记为“待确认”，不会虚构评论、主页信息或成交结果。
+
+## 两种输出模式
+
+### 会员发布版
+
+默认输出。使用对外可读的标题、引用式信息卡和自然介绍，全文不超过 1000 字。
+
+对外稿不会暴露阶段编码、风险字母、置信度、采集方式或分析过程，而是直接从作品第一张图、视频开头或最值得讲的内容动作切入。
+
+### 内部记录版
+
+当用户明确提出“入库、结构化、批量整理、给 MCP 调用、输出后台字段”时，在会员发布版之外增加结构化记录，用于检索、审核和后续自动化。
+
+## 核心判断原则
+
+1. 流量不等于客户，互动不等于意向。
+2. 评论只能证明用户表达过什么，不能直接证明成交或因果。
+3. 主页有联系方式或商品入口，只能证明存在承接路径。
+4. 录屏、截图拼图可能只是采集载体，不能误判成原作者的内容形式。
+5. 跨赛道迁移要保留同一种用户心理或决策机制，不能只替换行业名词。
+6. 没有出现的信息不补写，不虚构经历、数据、效果或账号意图。
+
+## 安装
+
+### 方法一：使用 Codex Skill Installer
+
+Windows PowerShell：
+
+```powershell
+python "$env:USERPROFILE\.codex\skills\.system\skill-installer\scripts\install-skill-from-github.py" `
+  --repo shushouyouce/moya-template-analyzer `
+  --path . `
+  --name moya-template-analyzer
+```
+
+macOS / Linux：
+
+```bash
+python "${CODEX_HOME:-$HOME/.codex}/skills/.system/skill-installer/scripts/install-skill-from-github.py" \
+  --repo shushouyouce/moya-template-analyzer \
+  --path . \
+  --name moya-template-analyzer
+```
+
+安装完成后，在下一轮对话中即可使用。
+
+### 方法二：直接克隆
+
+Windows PowerShell：
+
+```powershell
+git clone https://github.com/shushouyouce/moya-template-analyzer.git `
+  "$env:USERPROFILE\.codex\skills\moya-template-analyzer"
+```
+
+macOS / Linux：
+
+```bash
+git clone https://github.com/shushouyouce/moya-template-analyzer.git \
+  "${CODEX_HOME:-$HOME/.codex}/skills/moya-template-analyzer"
+```
+
+如果目标目录已经存在，请先确认是否需要保留本地修改。使用 Git 克隆安装时，可以在该目录执行 `git pull` 获取后续更新。
+
+## 使用方法
+
+在 Codex 中显式调用：
+
+```text
+$moya-template-analyzer
+```
+
+然后附上图片、视频、链接、正文或评论样本，并说明希望执行的任务。例如：
+
+```text
+$moya-template-analyzer
+分析这条小红书图文，判断它的获客作用，并生成会员发布版。
+```
+
+```text
+$moya-template-analyzer
+分析这段抖音录屏。录屏里包含原作品、评论区和主页，请区分证据层，不要把录屏方式写进对外介绍。
+```
+
+```text
+$moya-template-analyzer
+把这批模板整理入库，同时输出会员发布版和内部记录版。
+```
+
+## 输出格式示意
+
+```markdown
+### 【对外赛道｜平台｜获客作用】模板名称
+
+> 【适用赛道】……
+> 【目标人群】……
+> 【内容平台】……
+> 【内容形式】……
+> 【使用阶段】……
+> 【主要用途】……
+
+正文从当前作品最值得讲的内容动作开始……
+```
+
+## 目录结构
+
+```text
+moya-template-analyzer/
+├── SKILL.md
+├── agents/
+│   └── openai.yaml
+├── references/
+│   ├── taxonomy.md
+│   ├── glossary-and-stages.md
+│   ├── judgment-and-schema.md
+│   ├── output-and-voice.md
+│   ├── risk-rules.md
+│   └── examples.md
+└── scripts/
+    └── validate_output.py
+```
+
+## 校验会员发布稿
+
+```bash
+python scripts/validate_output.py path/to/output.md
+```
+
+校验器会检查标题格式、必要信息卡、1000 字限制、品牌落款，以及内部字段和采集过程是否误入对外稿。
+
+## 说明
+
+- 风险判断用于内容审核提示，不替代医疗、法律、金融或平台专业意见。
+- 公开数据是历史结果，不代表复用模板后能够获得相同表现。
+- 处理评论、聊天截图和案例时，应注意隐私、授权与真实性。
+
